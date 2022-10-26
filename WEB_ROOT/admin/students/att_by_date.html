@@ -1,0 +1,55 @@
+<!--
+TemplateName:Admin Student Page
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Attendance List by Date</title>
+<!-- required scripts -->
+	~[wc:commonscripts] 
+<!-- Required style sheets: screen.css, and print.css -->
+	<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+	<link href="/images/css/print.css" rel="stylesheet" media="print">
+<style>
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak {
+      display: none !important;
+    }
+  </style>
+</head> 
+<body> 
+	~[wc:admin_header_frame_css]
+	<!-- breadcrumb start -->
+		<a href="/admin/home.html" target="_top">Start Page</a> &gt; <a href="/admin/students/home.html?selectstudent=nosearch" target="_top">Student Selection</a> &gt; Attendance List by Date
+	<!-- breadcrumb end -->
+~[wc:admin_navigation_frame_css]
+<!-- start of main menu and content -->
+~[wc:title_student_begin_css]Attendance List by Date~[wc:title_student_end_css]
+<!-- start of content area -->
+	<div class="box-round">
+	    <div id="main_content" data-require-path="components/attendancelist/index" data-module-name="attListApp" data-ng-controller="attListController" ng-cur-student="~(curstudid)">
+	        
+	        <div .ng-cloak>
+	            <table class="linkDescList" style="width:50%">
+	                <thead>
+	                    <tr>
+	                        <th>Date</th><th>Full / Half Day</th><th>Site</th>
+	                    </tr>
+	                </thead>
+	                <tbody class="ng-cloak">
+	                    <tr ng-repeat="absence in absList" ng-if="absence.status != 'n/a'">
+	                        <td>{{ absence.calendardate | date: 'M/dd/yyyy' }}</td><td>{{ absence.status }}</td><td>{{ absence.site }}</td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+<!-- end of content area -->
+	~[wc:admin_footer_frame_css]
+</body> 
+</html>

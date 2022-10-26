@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://plugin.powerschool.pearson.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd" name="Attendance Individual Report" version="1.6.8" description="PowerQuery for the Individual Attendance by date report">
+  <publisher name="J. Zuvanich">
+    <contact email="zuvanj@pcps.us" />
+  </publisher>
+</plugin>

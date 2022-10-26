@@ -1,0 +1,5 @@
+<script>
+    var link = `
+	<li><a href="att_by_date.html?frn=~(studentfrn)">Attendance By Date</a></li>`;
+	$j('#std_academics').prepend(link);
+</script>

@@ -1,0 +1,51 @@
+<queries>
+    <query name="us.pcps.individual.att.flattened"
+           coreTable="students" flattened="true" tags="zuvanj, attendance, individual">
+        <summary>Individual Attendance Report</summary>
+        <description>Display a list of absences for an individual student by date</description>
+        <args>
+			<arg name="id" column="students.id" required="false" description="studentid" default="0" />
+		</args>
+        <columns>
+            <column column="students.schoolid">site</column>
+            <column column="students.schoolid">calendardate</column>
+            <column column="students.schoolid">status</column>
+        </columns>
+        <sql>
+        <![CDATA[
+with abs as(
+	select
+		s.schoolid
+		, ada.calendardate
+		, adc.periods_absent
+		, adc.daypartid
+		, row_number() over (partition by ada.calendardate order by ada.calendardate, adc.daypartid) r
+		, count(ada.calendardate) over (partition by ada.calendardate order by ada.calendardate) dc
+	from students s
+		join att_adaadm_defaults_all ada on s.id = ada.studentid
+		join att_daypart_curyear adc on ada.studentid = adc.studentid and ada.calendardate = adc.calendardate
+		join attendance att on att.studentid = s.id and adc.calendardate = att.att_date
+	where s.id = :id
+	and ada.pctdayposattpct < 100
+	and ada.yearid = substr(extract(year from add_months(sysdate, -6)), -2) + 10
+	and (adc.daypartid = 1 or adc.daypartid = 2)
+	and adc.periods_absent > case when s.schoolid > 500 then 1
+							when s.schoolid < 500 then  0 end
+	
+	group by 
+		s.schoolid
+		, ada.calendardate
+		, adc.periods_absent
+		, adc.daypartid)
+
+select schoolid
+	, calendardate
+	,nvl((case when daypartid = 1 and r = 1 and dc = 1 then 'HDA' end ||
+	case when daypartid = 2 and r = 2 and dc = 2 then 'FDA' end ||
+	case when daypartid = 2 and r = 1 and dc = 2 then 'HDA' end ||
+	case when daypartid = 2 and r = 1 and dc = 1 then 'HDA' end), 'n/a') status
+from abs
+	
+        ]]></sql>
+    </query>
+</queries>

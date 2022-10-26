@@ -1,0 +1,5 @@
+<permission_mappings>
+  <permission name='/admin/students/generaldemographics.html'>
+    <implies allow="post">/ws/schema/query/us.pcps.individual.att.flattened</implies>
+  </permission>
+</permission_mappings>
